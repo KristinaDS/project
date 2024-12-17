@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './styles.css';
+import LoginForm from './components/Auth/LoginForm';
+import RegisterForm from './components/Auth/RegisterForm';
+import UserDashboard from './components/User/UserDashboard';
 
 function App() {
+  const [token, setToken] = useState(null);
+  const [view, setView] = useState("login");
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`app-container ${theme}`}>
+
+      <button className="theme-toggle" onClick={toggleTheme}>
+        {theme === 'light' ? '🌙' : '🌞'} {}
+      </button>
+
+      {!token ? (
+        view === "login" ? (
+          <LoginForm setToken={setToken} switchToRegister={() => setView("register")} />
+        ) : (
+          <RegisterForm switchToLogin={() => setView("login")} />
+        )
+      ) : (
+        <UserDashboard setToken={setToken} />
+      )}
     </div>
   );
 }

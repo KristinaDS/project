@@ -1,15 +1,16 @@
 package provider
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/jmoiron/sqlx"
 
 	_ "github.com/lib/pq"
 )
 
 type Provider struct {
-	conn *sql.DB
+	conn *sqlx.DB
 }
 
 func NewProvider(host string, port int, user, password, dbName string) *Provider {
@@ -17,7 +18,8 @@ func NewProvider(host string, port int, user, password, dbName string) *Provider
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbName)
 
-	conn, err := sql.Open("postgres", psqlInfo)
+	// Создание соединения с сервером postgres
+	conn, err := sqlx.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal(err)
 	}

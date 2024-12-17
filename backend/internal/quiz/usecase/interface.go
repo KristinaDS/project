@@ -7,17 +7,17 @@ import (
 type Provider interface {
 	CreateQuiz(quiz models.Quiz) (int, error)
 
-	UpdateQuiz(id int, quiz models.Quiz) error
-
-	DeleteQuiz(id int) error
-
-	// GetAllQuizzes возвращает все викторины
 	GetAllQuizzes() ([]models.Quiz, error)
 
-	// GetQuizByID возвращает викторину по ID
 	GetQuizByID(id int) (models.Quiz, error)
 
-	// Работа с вопросами
-	CreateQuestion(id int, questionText string) error
+	CreateQuestion(quizID int, questionText string) (int, error)
 	GetQuestionsByQuizID(id int) ([]models.Questions, error)
+
+	CreateAnswer(questionID int, answerText string, isCorrect bool) (int, error)
+	GetAnswersByQuestionID(questionID int) ([]models.Answers, error)
+
+	SaveRating(quizID int, rating models.Rating) error
+	GetAverageRating(quizID int) (float64, error)
+	GetCommentsByQuizID(quizID int) ([]models.Rating, error)
 }

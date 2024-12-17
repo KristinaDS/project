@@ -1,12 +1,28 @@
 ip: "127.0.0.1"
 port: 8081
+port_participation: 8082
+
 api:
-  max_message_size: 32
+  max_message_size: 1048576
+
 usecase:
   default_message: 0
+
 db:
   host:     "localhost"
   port:     5432
   user:     "postgres"
   password: "postgres"
   dbname:   "quiz"
+
+  # Добавление настройки для взаимодействия между микросервисами
+quiz_service:
+  base_url: "http://127.0.0.1:8081"  # URL для доступа к API Quiz Service
+
+quiz_participation_service:
+  base_url: "http://127.0.0.1:8082" # URL для доступа к API Quiz Participation Service
+
+jwt:
+  secret_key: "jwt_secret_key"
+  issuer: "auth-service"
+  expires_in: 60
